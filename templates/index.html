@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ファイルアップロード</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+ 
+        .loading {
+            display: none;
+            font-size: 1.2em;
+            color: #555;
+            margin-top: 20px;
+        }
+ 
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+ 
+        video {
+            margin-top: 30px;
+ 
+        }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="logo">Traffic Count</div>
+<h1>動画をアップロード</h1>
+<form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+<input type="file" name="video" accept="video/*" required>
+<input type="submit" value="アップロードして処理">
+</form>
+<div id="loadingMessage" class="loading">処理中です。しばらくお待ちください...</div>
+    {% if video_url %}
+<h2>処理済み動画</h2>
+    {% if count is not none %}
+    <h2>検出された車両数: {{ count }}</h2>
+    {% endif %}
+<video width="640" height="480" controls>
+<source src="{{ video_url }}" type="video/mp4">
+ 
+            お使いのブラウザは video タグをサポートしていません。
+</video>
+ 
+    {% endif %}
+</div>
+<script>
+    const form = document.getElementById('uploadForm');
+    const loading = document.getElementById('loadingMessage');
+    form.addEventListener('submit', function() {
+        loading.style.display = 'block';
+ 
+    });
+</script>
+</body>
+</html>
